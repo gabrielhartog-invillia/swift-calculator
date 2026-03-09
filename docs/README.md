@@ -1,70 +1,52 @@
-# GitHub Pages Setup Guide
+# iOS Calculator App
 
-This folder contains the GitHub Pages site for the iOS Calculator App.
+A modern, iOS-inspired calculator built with SwiftUI and MVVM. This project focuses on clean architecture, a familiar calculator experience, and a polished UI.
 
-## 🚀 How to Enable GitHub Pages
+## Features
 
-1. **Push the `docs` folder to GitHub:**
-   ```bash
-   git add docs/
-   git commit -m "Add GitHub Pages site"
-   git push origin main
-   ```
+- Basic operations: addition, subtraction, multiplication, division
+- Utility functions: clear (AC), percent, toggle sign, decimal support
+- Chained operations with proper display formatting
+- Large, readable display with responsive scaling
+- Touch-friendly, color-coded buttons
 
-2. **Enable GitHub Pages in Repository Settings:**
-   - Go to your repository on GitHub
-   - Click on **Settings** tab
-   - Scroll down to **Pages** section (in the left sidebar under "Code and automation")
-   - Under **Source**, select:
-     - Branch: `main` (or your default branch)
-     - Folder: `/docs`
-   - Click **Save**
+## Architecture
 
-3. **Wait a few minutes** for GitHub to build and deploy your site
+The app uses MVVM to keep UI and business logic separated:
 
-4. **Access your site** at: `https://yourusername.github.io/yourrepo/`
+- Model: `CalculatorButton` enum defines button types and styling
+- ViewModel: `CalculatorViewModel` handles state and calculation logic
+- Views: `ContentView` and `CalculatorButtonView` render the UI
 
-## 📝 Customization
+## Project Structure
 
-Before publishing, update the following in `index.html`:
+- `Models/` - Button definitions and types
+- `ViewModels/` - Calculator state and logic
+- `Views/` - SwiftUI views for the interface
 
-- Replace `https://github.com/yourusername/yourrepo` with your actual repository URL (appears in 2 places)
-- Update the footer copyright year if needed
-- Add screenshots or demo GIF if desired
+## Getting Started
 
-## 🎨 Adding Screenshots
+Requirements:
 
-To add screenshots to your GitHub Pages:
+- Xcode 12 or later
+- iOS 14 or later
 
-1. Create a `docs/images/` folder
-2. Add your screenshot images
-3. Update the HTML to include: `<img src="images/screenshot.png" alt="Calculator App">`
+Run locally:
 
-## 🔧 Local Testing
+1. Open `TestAppLatest.xcodeproj` in Xcode
+2. Select a simulator or device
+3. Build and run with Cmd + R
 
-To test the site locally before pushing:
+## Design Notes
 
-```bash
-cd docs
-python3 -m http.server 8000
-```
+- iOS calculator-inspired layout and colors
+- 5x4 grid with 12pt spacing
+- 80pt display, 35pt button labels
+- Double-width zero button
 
-Then open `http://localhost:8000` in your browser.
+## Future Ideas
 
-## 📱 Features of the Landing Page
-
-The GitHub Pages site includes:
-- ✨ Modern, animated design with gradient backgrounds
-- 📱 Fully responsive layout (mobile-friendly)
-- 🎯 Feature showcase with grid layout
-- 🏗️ Architecture overview
-- 🚀 Getting started guide
-- 🔮 Future enhancements section
-- 📄 Clean, professional appearance
-
-## 🌐 Custom Domain (Optional)
-
-To use a custom domain:
-1. Add a `CNAME` file in the `docs/` folder with your domain name
-2. Configure DNS settings with your domain provider
-3. See [GitHub's custom domain documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
+- Button press animations and haptics
+- Scientific mode
+- History tape
+- Accessibility enhancements
