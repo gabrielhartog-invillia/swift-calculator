@@ -20,7 +20,7 @@ struct ContentView: View {
                 // History button row
                 HStack {
                     Spacer()
-                    Button("Hst") {
+                    Button("History") {
                         showHistory = true
                     }
                     .font(.system(size: 20, weight: .medium))
