@@ -1,0 +1,105 @@
+name: Agent Implementation - Plan (Copilot)
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: agent-implementation-plan-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    if: ${{ github.event.label.name == 'agent:implementation' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate issue has body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = (context.payload.issue.body || "").trim();
+            if (!body) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                body: [
+                  "Cannot start agent planning: issue body is empty.",
+                  "",
+                  "Please edit the issue and add:",
+                  "- Problem statement",
+                  "- Acceptance criteria (checklist)",
+                  "- Notes / constraints (optional)"
+                ].join("\n")
+              });
+              core.setFailed("Issue body is empty");
+            }
+
+      - name: Post implementation plan prompt (for Copilot)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const issue_number = issue.number;
+
+            const plan = [
+              "## Copilot Implementation Plan (MVP)",
+              "",
+              "**Goal:** Implement the feature described in this issue and open a PR.",
+              "",
+              "### Inputs",
+              `- Issue: #${issue_number} — ${issue.title}`,
+              "",
+              "### Repo architecture hints (swift-calculator)",
+              "- Views:",
+              "  - `TestAppLatest/Views/ContentView.swift`",
+              "  - `TestAppLatest/Views/CalculatorButtonView.swift`",
+              "- ViewModel:",
+              "  - `TestAppLatest/ViewModels/CalculatorViewModel.swift`",
+              "- Model:",
+              "  - `TestAppLatest/Models/CalculatorButton.swift`",
+              "- Existing docs:",
+              "  - `CALCULATOR_README.md`",
+              "",
+              "### Required plan output (fill this before coding)",
+              "- **Summary (1-2 sentences)**",
+              "- **Acceptance Criteria (copy from issue; make it a checklist)**",
+              "- **Approach** (bullets)",
+              "- **Files to change** (list exact paths)",
+              "- **Test plan** (how to validate; include unit/UI tests if applicable)",
+              "- **Docs updates** (`CALCULATOR_README.md` must be updated if behavior changes)",
+              "",
+              "### Implementation constraints / guardrails",
+              "- Prefer business logic changes in `CalculatorViewModel` (keep Views thin).",
+              "- Keep UI changes in `Views/` only.",
+              "- If you add new buttons/operations, update `CalculatorButton` model accordingly.",
+              "- Do not change CI/workflows unless explicitly required by the feature.",
+              "",
+              "### Next step",
+              "Maintainer: after reviewing this plan, **assign Copilot coding agent to this issue** to implement.",
+            ].join("\n");
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body: plan
+            });
+
+      - name: Post next-step instruction
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: [
+                "Workflow finished generating the Copilot plan prompt.",
+                "",
+                "Next: **Assign Copilot coding agent to this issue** to implement and open a PR."
+              ].join("\n")
+            });
