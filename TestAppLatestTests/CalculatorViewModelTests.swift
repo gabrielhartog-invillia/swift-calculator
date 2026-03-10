@@ -89,4 +89,33 @@ class CalculatorViewModelTests: XCTestCase {
         tap([.zero, .negative])
         XCTAssertEqual(viewModel.display, "0")
     }
+
+    // MARK: - History Tests
+
+    func testHistoryRecordedOnEqual() {
+        tap([.one, .add, .three, .equal])
+        XCTAssertEqual(viewModel.history.count, 1)
+        XCTAssertEqual(viewModel.history[0].expression, "1 + 3 = 4")
+        XCTAssertEqual(viewModel.history[0].result, "4")
+    }
+
+    func testHistoryNotRecordedWithoutOperation() {
+        tap([.five, .equal])
+        XCTAssertEqual(viewModel.history.count, 0)
+    }
+
+    func testHistoryAccumulatesMultipleEntries() {
+        tap([.two, .add, .three, .equal])
+        tap([.four, .multiply, .five, .equal])
+        XCTAssertEqual(viewModel.history.count, 2)
+        XCTAssertEqual(viewModel.history[0].result, "5")
+        XCTAssertEqual(viewModel.history[1].result, "20")
+    }
+
+    func testLoadResultFromHistory() {
+        tap([.six, .add, .four, .equal])
+        let item = viewModel.history[0]
+        viewModel.loadResult(item)
+        XCTAssertEqual(viewModel.display, "10")
+    }
 }
