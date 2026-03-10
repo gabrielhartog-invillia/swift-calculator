@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = CalculatorViewModel()
+    @State private var showHistory = false
     
     let buttons: [[CalculatorButton]] = [
         [.clear, .negative, .percent, .divide],
@@ -16,6 +17,18 @@ struct ContentView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 12) {
+                // History button row
+                HStack {
+                    Spacer()
+                    Button("Hst") {
+                        showHistory = true
+                    }
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.trailing, 28)
+                }
+                .padding(.top, 12)
+                
                 Spacer()
                 
                 // Display
@@ -42,6 +55,11 @@ struct ContentView: View {
             }
             .padding(.horizontal, 12)
             .padding(.bottom, 20)
+        }
+        .fullScreenCover(isPresented: $showHistory) {
+            HistoryView(history: viewModel.history) { item in
+                viewModel.loadResult(item)
+            }
         }
     }
 }

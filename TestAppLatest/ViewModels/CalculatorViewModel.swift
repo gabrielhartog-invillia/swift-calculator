@@ -3,6 +3,7 @@ import Combine
 
 class CalculatorViewModel: ObservableObject {
     @Published var display = "0"
+    @Published var history: [HistoryItem] = []
     
     private var currentNumber: Double = 0
     private var previousNumber: Double = 0
@@ -66,13 +67,27 @@ class CalculatorViewModel: ObservableObject {
             
         case .equal:
             if let value = Double(display), let op = operation {
+                let prev = previousNumber
                 currentNumber = performOperation(op, previousNumber, value)
-                display = formatNumber(currentNumber)
+                let resultStr = formatNumber(currentNumber)
+                let expression = "\(formatNumber(prev)) \(op.rawValue) \(formatNumber(value)) = \(resultStr)"
+                history.append(HistoryItem(expression: expression, result: resultStr))
+                display = resultStr
                 operation = nil
                 isTypingNumber = false
                 previousNumber = currentNumber
             }
         }
+    }
+    
+    func loadResult(_ item: HistoryItem) {
+        display = item.result
+        if let value = Double(item.result) {
+            currentNumber = value
+            previousNumber = value
+        }
+        operation = nil
+        isTypingNumber = false
     }
     
     private func performOperation(_ operation: CalculatorButton, _ num1: Double, _ num2: Double) -> Double {
