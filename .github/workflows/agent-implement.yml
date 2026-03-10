@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   plan:
-    if: ${{ github.event.label.name == 'agent:implementation' }}
+    if: ${{ contains(github.event.issue.labels.*.name, 'agent:implementation') }}
     runs-on: ubuntu-latest
     steps:
       - name: Validate issue has body
@@ -50,6 +50,10 @@ jobs:
               "",
               "**Goal:** Implement the feature described in this issue and open a PR.",
               "",
+              "### Mandatory documentation updates (definition of done)",
+              "- [ ] Update `README.md` (create it if it does not exist; keep it concise and point to deeper docs).",
+              "- [ ] Update `docs/index.html` with feature summary + usage instructions.",
+              "",
               "### Inputs",
               `- Issue: #${issue_number} — ${issue.title}`,
               "",
@@ -70,7 +74,7 @@ jobs:
               "- **Approach** (bullets)",
               "- **Files to change** (list exact paths)",
               "- **Test plan** (how to validate; include unit/UI tests if applicable)",
-              "- **Docs updates** (`CALCULATOR_README.md` must be updated if behavior changes)",
+              "- **Docs updates** (must include `README.md` + `docs/index.html` changes)",
               "",
               "### Implementation constraints / guardrails",
               "- Prefer business logic changes in `CalculatorViewModel` (keep Views thin).",
