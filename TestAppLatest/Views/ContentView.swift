@@ -17,18 +17,6 @@ struct ContentView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 12) {
-                // History button row
-                HStack {
-                    Spacer()
-                    Button("History") {
-                        showHistory = true
-                    }
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.trailing, 28)
-                }
-                .padding(.top, 12)
-                
                 Spacer()
                 
                 // Display
@@ -52,6 +40,16 @@ struct ContentView: View {
                     }
                 }
                 .padding(.bottom, 8)
+                
+                // History button
+                Button("History") {
+                    showHistory = true
+                }
+                .font(.system(size: 35, weight: .medium))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, minHeight: 80)
+                .background(Color.orange)
+                .cornerRadius(40)
             }
             .padding(.horizontal, 12)
             .padding(.bottom, 20)
