@@ -1,0 +1,139 @@
+name: Feature Request
+description: Propose a new feature or improvement for the Calculator app
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Please fill out every required field carefully. Incomplete requests may be closed without review.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is the current problem or gap? Be specific about what is broken, missing, or frustrating.
+      placeholder: |
+        Example: There is no way to review past calculations.
+        When I make a mistake mid-calculation I have to start over from scratch.
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_behavior
+    attributes:
+      label: Desired Behavior
+      description: Describe what you want to happen. Focus on the outcome, not a specific implementation.
+      placeholder: |
+        Example: The app should maintain a scrollable history of the last 20 expressions
+        and allow tapping any entry to restore it to the input field.
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-Goals
+      description: What is explicitly OUT of scope for this feature? This helps keep the implementation focused.
+      placeholder: |
+        Example:
+        - Syncing history across devices
+        - Persisting history after the app is closed
+        - Editing past expressions inline
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### Acceptance Criteria
+        Define the conditions that must be true for this feature to be considered **done**.
+        At least **3 criteria** are required (AC 1–3). Add more in the optional fields as needed.
+        Use "Given / When / Then" or plain language — each criterion must be independently testable.
+
+  - type: input
+    id: ac_1
+    attributes:
+      label: "Acceptance Criterion 1"
+      description: Write a single, testable criterion.
+      placeholder: "Given I perform a calculation, when I view the history panel, then my expression and result are listed."
+    validations:
+      required: true
+
+  - type: input
+    id: ac_2
+    attributes:
+      label: "Acceptance Criterion 2"
+      placeholder: "Given the history has 20+ entries, when a new result is added, then the oldest entry is removed."
+    validations:
+      required: true
+
+  - type: input
+    id: ac_3
+    attributes:
+      label: "Acceptance Criterion 3"
+      placeholder: "Given I tap a history entry, when it loads, then the input field shows the previous result."
+    validations:
+      required: true
+
+  - type: input
+    id: ac_4
+    attributes:
+      label: "Acceptance Criterion 4 (optional)"
+      placeholder: "Add a fourth criterion if needed."
+    validations:
+      required: false
+
+  - type: input
+    id: ac_5
+    attributes:
+      label: "Acceptance Criterion 5 (optional)"
+      placeholder: "Add a fifth criterion if needed."
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "---"
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected Area
+      description: Which part of the project does this feature primarily affect? Select all that apply.
+      multiple: true
+      options:
+        - "App — Calculator Logic / ViewModel"
+        - "App — UI / UX"
+        - "App — Buttons / Input"
+        - "App — Display"
+        - "App — Accessibility"
+        - "Docs — README / CALCULATOR_README"
+        - "Docs — GitHub Pages (docs/index.html)"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Mockups, screenshots, prior art, or any other relevant information.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: I have defined at least 3 acceptance criteria above.
+          required: true
+        - label: I am willing to help implement or test this feature.
+          required: false
