@@ -2,7 +2,7 @@
 
 ## Documentation requirement (mandatory)
 When you implement or change a feature:
-1) Update `README.md` (or `CALCULATOR_README.md` if that remains the primary README).
+1) Update `README.md`.
 2) Update `docs/index.html` to reflect the new feature and how to use it.
 
 ## What to include in docs updates
